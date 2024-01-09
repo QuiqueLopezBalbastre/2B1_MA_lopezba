@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr>Traslado de datos</tr>
+    <tr><td>Traslado de datos</td></tr>
     <tr>
       <td>mov</td>
       <td>Mueve de un origen a un destino</td>
