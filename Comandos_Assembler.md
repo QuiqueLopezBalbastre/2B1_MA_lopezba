@@ -1,7 +1,7 @@
 <table align ="center">
   <thead>
     <tr>
-      <th><b>Comandos Assembler<b><th> 
+      <th colspan="2"><b>Comandos Assembler<b><th> 
     </tr>
     <tr>
       <th>Nombre</th>
@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr>Traslado de datos</tr>
+    <tr><td colspan="2">Traslado de datos</td></tr>
     <tr>
       <td>mov</td>
       <td>Mueve de un origen a un destino</td>
