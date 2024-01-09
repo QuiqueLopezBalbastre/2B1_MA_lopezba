@@ -1,0 +1,16 @@
+---------------
+    APUNTES
+---------------
+
+
+---------------
+    Glosario
+---------------
+· Dirección de memoria
+
+· Puntero
+
+
+Como se declara un Puntero
+char *p
+char p[100]
