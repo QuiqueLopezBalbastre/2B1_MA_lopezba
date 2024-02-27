@@ -13,14 +13,10 @@
       <td></td>
       <td></td>
     </tr>
-    <tr><td colspan="2" style="text-align:center"><i><b>Traslado de datos</td></tr>
+    <tr><td colspan="2" style="text-align:center text-size:20"><i><b>Traslado de datos</td></tr>
     <tr>
       <td>mov</td>
       <td>Mueve de un origen a un destino</td>
-    </tr>
-        <tr>
-      <td>mvn</td>
-      <td>Negación de los bit <b>"not"</b></td>
     </tr>
     <tr><td colspan="2" style="text-align:center"><i><b>Comparaciones</td></tr>
     <tr>
@@ -43,6 +39,10 @@
     <tr>
       <td>rsb</td>
       <td>- (orden inverso)</td>
+    </tr>
+    <tr>
+      <td>mvn</td>
+      <td>Negación de los bit <b>"not"</b></td>
     </tr>
     <tr>
       <td>eor</td>
