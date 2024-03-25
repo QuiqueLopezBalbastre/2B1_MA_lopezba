@@ -32,7 +32,7 @@ void UpdateParticles (Particle* particles, int nparticles, unsigned short* scree
 #else
 void UpdateParticles (Particle* particles, int nparticles, unsigned short* screen)
 {
-  //do {
+  do {
     if (particles->alive) {
       // Mirar si hay sitio debajo
       int x = particles->x;
@@ -42,11 +42,11 @@ void UpdateParticles (Particle* particles, int nparticles, unsigned short* scree
       int new_x = NO_SLOT;
       if (down[0] == BLACK)
         new_x = 0;      // There is room just down the current position
-/*
       else if (down[-1] == BLACK)
           new_x = -1;      // There is room letf-down 
         else if (down[1] == BLACK)
             new_x = 1;      // There is room right-down 
+/* 
 */
 
       if (new_x != NO_SLOT) {
@@ -58,10 +58,10 @@ void UpdateParticles (Particle* particles, int nparticles, unsigned short* scree
       else
         particles->alive = 0;
     }
-    //particles++;
-    //nparticles--;
+    particles++;
+    nparticles--;
 
-  //} while (nparticles != 0);  // Do while there is particles left
+  } while (nparticles != 0);  // Do while there is particles left
 }
 #endif
 

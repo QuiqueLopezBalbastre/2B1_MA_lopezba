@@ -34,7 +34,7 @@ seed_loop:
     ldrh    r5,[r0,#2]          @ int y = sources->y
 
     mov     r7,#240             @ SCREEN_W
-    mul     r5,r5,r7            @ * y
+    mul     r5,r7,r5            @ * y
     add     r6,r6,r4            @ + x
     mov     r6,r6,lsl #1        @ * sizeof(short)
     ldrh    r6,[r3,r6]          @ screen[]
@@ -73,12 +73,15 @@ seed_done:
 UpdateParticles:
     stmdb sp!,{r4,r5,r6,r7,r8,r9,r10,r11,r12,r14}
 
-    mov r7,#240                 @ SCREEN_W = 240    
+    mov r11,#240                 @ SCREEN_W = 240    
 
 update_loop:
+    ldrb r10,[r0,#2]
+    cmp r10,#0
+    beq next_particle
     ldrb r3,[r0,#0]             @ x = particles->x
     ldrb r4,[r0,#1]             @ y = particles->y
-    mul r6,r4,r7                @ SCREEN_W * y
+    mul r6,r4,r11                @ SCREEN_W * y
     add r6,r6,r3                @ x + (SCREEN_W * y)
     mov r6,r6,lsl#1             @ sizeof(short)
     add r5,r2,r6                @ current = &screen[x + (SCREEN_W * y)]
@@ -89,7 +92,16 @@ update_loop:
     ldrh r9,[r6]
     cmp r9,#0                   @ if(down[0] == 0)    
     moveq r7,#0                 @ new_x = 0
+    beq occupy_slot
+    ldrh r9,[r6,#-2]
+    cmp r9,#0                  @ if(down[-1] == BLACK)
+    moveq r7,#-1               @ new_x = -1
+    beq occupy_slot
+    ldrh r9,[r6,#2]            @ if(down[1] == BLACK)
+    cmp r9,#0
+    moveq r7,#1                @ new_x = 1
 
+occupy_slot:
     cmp r7,#33
     beq update_kill
     mov r8,#0                   
@@ -103,20 +115,26 @@ update_loop:
     strb r3,[r0,#0]             @ particles->x = x + new_x
     add r4,r4,#1                @ y + 1
     strb r4,[r0,#1]             @ particles->y = y + 1
-    b update_done
+    b next_particle
 
 update_kill:
     mov r7,#0
-    strb r7,[r0,#2]              @ particle->alive = 0
+    strb r7,[r0,#2]             @ particle->alive = 0
+
+next_particle:
+    add r0,r0,#4
+    subs r1,r1,#1    
+    bne update_loop             @ while(nparticles != 0)
     
 update_done:
     ldmia sp!,{r4,r5,r6,r7,r8,r9,r10,r11,r12,r14}
     bx lr
 
 
+
 /*
-//do {
-    if (particles->alive) {
+do {
+    if (particles->alive != 0) {
       // Mirar si hay sitio debajo
       int x = particles->x;
       int y = particles->y;
@@ -124,12 +142,12 @@ update_done:
       unsigned short* down = current + SCREEN_W;
       int new_x = NO_SLOT;
       
-      //if (down[0] == BLACK)
-      //  new_x = 0;      // There is room just down the current position
-      //else if (down[-1] == BLACK)
-      //    new_x = -1;      // There is room letf-down 
-      //  else if (down[1] == BLACK)
-      //      new_x = 1;      // There is room right-down 
+      if (down[0] == BLACK)
+        new_x = 0;      // There is room just down the current position
+      else if (down[-1] == BLACK)
+          new_x = -1;      // There is room left-down 
+        else if (down[1] == BLACK)
+            new_x = 1;      // There is room right-down 
       
       if (new_x != NO_SLOT) {
         *current = BLACK; // Clean the old position
@@ -142,8 +160,8 @@ update_done:
 
     }
 
-   // particles++;
-   // nparticles--;
+    particles++;
+    nparticles--;
 
-// } while (nparticles != 0);  // Do while there is particles left
+ } while (nparticles != 0);  // Do while there is particles left
 */

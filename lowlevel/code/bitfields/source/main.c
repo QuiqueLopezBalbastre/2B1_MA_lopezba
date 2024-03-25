@@ -13,33 +13,35 @@
 
 #define RGB16(R,G,B)  ((R)+((G)<<5)+((B)<<10)) 
 
-#if 0
+#if 1
 void Paint (unsigned short* dst, unsigned char* sprite, int stride_pixels, unsigned int color);
 #else
 void Paint (unsigned short* dst, unsigned char* sprite, int stride_pixels, unsigned int color)
 {
-  int ball_r = color & 0x1f;
-  int ball_g = (color >> 5) & 0x1f;
-  int ball_b = (color >> 10) & 0x1f;
+  //int ball_r = color & 0x1f;
+  //int ball_g = (color >> 5) & 0x1f;
+  //int ball_b = (color >> 10) & 0x1f;
   int x, y;
   int side = BALL_SIDE;
   for (y=0; y<side; y++) {
     for (x=0; x<side; x++) {
       int t = *sprite++; // read solid/transparent
       if (t) {
-        unsigned int back_color = *dst;
+  //    unsigned int back_color = *dst;
+        unsigned int back_color = 0x1f;
         // Unpack color
-        int r = back_color & 0x1f;
-        int g = (back_color >> 5) & 0x1f;
-        int b = (back_color >> 10) & 0x1f;
+  //      int r = back_color & 0x1f;
+  //      int g = (back_color >> 5) & 0x1f;
+  //      int b = (back_color >> 10) & 0x1f;
         // Color average
-        r = ((r << 1) + r + ball_r) >> 2;
-        g = ((g << 1) + g + ball_g) >> 2;
-        b = ((b << 1) + b + ball_b) >> 2;
+  //      r = ((r << 1) + r + ball_r) >> 2;
+  //      g = ((g << 1) + g + ball_g) >> 2;
+  //      b = ((b << 1) + b + ball_b) >> 2;
         // Reassemble color
-        *dst = r | (g << 5) | (b<<10);
+  //      *dst = r | (g << 5) | (b<<10);
+        *dst = back_color | back_color << 5 | back_color << 10;
       }
-      dst++;
+    dst++;
     }
     dst += stride_pixels - side;
   } 
